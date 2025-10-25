@@ -1,0 +1,34 @@
+# ===== Code::Blocks =====
+*.depend
+*.layout
+*.cbtmp
+
+# ===== Compilación =====
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dll
+
+# ===== Directorios de build =====
+bin/
+obj/
+
+# ===== Archivos temporales =====
+*~
+*.bak
+*.tmp
+*.swp
+*.log
+
+# ===== Sistema =====
+.DS_Store
+.directory
+Thumbs.db
+
+# ===== Archivos generados =====
+*.stackdump
+*.tmp.*
+core
