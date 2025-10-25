@@ -31,9 +31,18 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="constantes.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="moduloB.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="moduloB.h" />
+		<Unit filename="moduloC.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="moduloC.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

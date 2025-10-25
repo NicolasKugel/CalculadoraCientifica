@@ -1,6 +1,0 @@
-# depslib dependency file v1.0
-1760824255 source:/home/slayer/repos/CalculadoraCientifica/CasioCalculadoraCientifica/main.c
-	<stdio.h>
-	<stdlib.h>
-	<ctype.h>
-
