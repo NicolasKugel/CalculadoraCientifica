@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "moduloA.h"
 #define VERSION 1.0
 #define LONG_OPCIONES 9
 
