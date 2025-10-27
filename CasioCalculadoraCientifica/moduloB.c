@@ -21,7 +21,6 @@ void mostrarEcuacionesSesion(char (*ecuaciones)[50], int hayEcuaciones) {
         fprintf(temp, "%s\n", ecuaciones[i]); // se guarda ecuación en archivo temporal
         printf("[%d.] %s\n", i + 1, ecuaciones[i]); // se muestra en pantalla
         i++;
-        ecuaciones+1;
     }
 
     fclose(temp);
