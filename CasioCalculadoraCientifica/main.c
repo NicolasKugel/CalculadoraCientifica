@@ -31,7 +31,8 @@ int main()
 
     switch (opcion) {
         case 'A':
-            printf("Llamada al modulo A");
+            //printf("Llamada al modulo A");
+            opcion_A_ingresar_ecuacion_demo();
             break;
         case 'B':
             printf("Llamada al modulo B");

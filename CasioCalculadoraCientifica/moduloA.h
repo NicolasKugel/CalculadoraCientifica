@@ -1,3 +1,6 @@
+#ifndef MODULOA_H
+#define MODULOA_H
+
 /* Prototipo de función: leer ecuación */
 int leer_ecuacion_simple(char *dst, size_t tam);
 
@@ -15,3 +18,6 @@ void cadena_a_minusculas(char *s);
 
 /* Devuelve 1 si la cadena está vacía o solo tiene espacios/blancos; 0 en caso contrario. */
 int cadena_es_blanca(const char *s);
+
+void opcion_A_ingresar_ecuacion_demo(void);
+#endif

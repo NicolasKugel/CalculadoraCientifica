@@ -1,4 +1,5 @@
 #include "moduloA.h"
+#include <stdio.h>
 void cadena_quitar_nueva_linea(char *s)
 {
     char *p = s;
@@ -86,114 +87,24 @@ void cadena_a_minusculas(char *s)
 
 int cadena_es_blanca(const char *s)
 {
+    int result;
     const unsigned char *p = (const unsigned char *)s;
     if (!s)
-        return 1;
+        result = 1;
 
     while (*p)
     {
         /* Si encontramos algo que NO sea espacio, tab, \n o \r -> no es blanca */
         if (*p != ' ' && *p != '\t' && *p != '\n' && *p != '\r')
         {
-            return 0;
+            result = 0;
         }
         p++;
     }
-    return 1;
+    result = 1;
+    return result;
 }
 
-int leer_linea(char *dst, size_t dst_tam)
-{
-    int truncada = 0;
-    int c;
-    size_t i = 0;
-
-    if (!dst || dst_tam == 0)
-        return -1;
-
-    /* Leemos carácter a carácter para controlar el tamaño y CRLF */
-    while ((c = getchar()) != EOF)
-    {
-        if (c == '\r')
-            continue; /* ignora CR (Windows) */
-        if (c == '\n')
-            break; /* fin de línea */
-        if (i + 1 < dst_tam)
-        {
-            dst[i++] = (char)c; /* guardamos mientras haya espacio */
-        }
-        else
-        {
-            truncada = 1; /* seguimos consumiendo, pero ya no guardamos */
-        }
-    }
-
-    if (c == EOF && i == 0)
-        return -1; /* EOF sin datos */
-    dst[i] = '\0';
-    return truncada ? -2 : 0;
-}
-
-int entrada_leer_ecuacion(char *dst, size_t dst_tam)
-{
-    int rc;
-
-    if (!dst || dst_tam == 0)
-        return -1;
-
-    printf("Ingrese la ecuacion (x,y; + - * / ^ ; sqrt(...) o root(n,expr)):\n> ");
-    rc = leer_linea(dst, dst_tam);
-    if (rc == -1)
-    {
-        /* EOF o error de lectura */
-        return -1;
-    }
-    if (rc == -2)
-    {
-        /* El usuario escribió más de lo que entra en el buffer */
-        cadena_quitar_nueva_linea(dst); /* por las dudas */
-        cadena_recortar_bordes(dst);
-        return -2; /* avisamos al llamador que se excedió */
-    }
-
-    /* Normalización básica */
-    cadena_quitar_nueva_linea(dst);
-    cadena_recortar_bordes(dst);
-
-    if (cadena_es_blanca(dst))
-    {
-        return -3; /* vacío o solo blancos */
-    }
-
-    /* Limpieza para almacenamiento y parser posterior */
-    cadena_quitar_espacios(dst);
-    cadena_a_minusculas(dst);
-
-    /* Listo para validación sintáctica posterior (no se hace aquí) */
-    return 0;
-}
-
-void opcion_A_ingresar_ecuacion_demo(void)
-{
-    char expr[MAX_EXPR];
-    int rc = leer_ecuacion_simple(expr, sizeof(expr));
-    if (rc == 0)
-    {
-        /* expr ya viene sin espacios y en minuscula, lista para validar sintaxis y guardar */
-    }
-    else if (rc == -2)
-    {
-        puts("La ecuacion es demasiado larga.");
-    }
-    else if (rc == -3)
-    {
-        puts("No se ingreso ninguna ecuacion.");
-    }
-    else
-    {
-        puts("Error de lectura.");
-    }
-}
 
 int leer_ecuacion_simple(char *dst, size_t tam)
 {
@@ -256,6 +167,30 @@ int leer_ecuacion_simple(char *dst, size_t tam)
         if (!tiene_algo)
             resultado = -3; /* estaba vacia o solo blancos */
     }
-
     resultado = truncada ? -2 : 0;
+    return resultado;
 }
+
+
+void opcion_A_ingresar_ecuacion_demo(void)
+{
+    char expr[MAX_EXPR];
+    int rc = leer_ecuacion_simple(expr, sizeof(expr));
+    if (rc == 0)
+    {
+        /* expr ya viene sin espacios y en minuscula, lista para validar sintaxis y guardar */
+    }
+    else if (rc == -2)
+    {
+        puts("La ecuacion es demasiado larga.");
+    }
+    else if (rc == -3)
+    {
+        puts("No se ingreso ninguna ecuacion.");
+    }
+    else
+    {
+        puts("Error de lectura.");
+    }
+}
+
