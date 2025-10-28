@@ -48,9 +48,7 @@
 		</Unit>
 		<Unit filename="moduloD.h" />
 		<Unit filename="moduloE.c">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
+			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="moduloE.h" />
 		<Extensions />
