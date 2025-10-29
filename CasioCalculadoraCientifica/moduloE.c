@@ -3,23 +3,23 @@
 #include <string.h>
 
 void eliminarArchivosDeSesiones(){
-    char nombreDeArchivos[30];
-    int i;
-    FILE *archivoDeEcuaciones;
+    char nombreDeArchivo[51];
+    char rutaCompleta[66];
+    int numSesion;
+    FILE *archivoMapeos;
 
-    for(i = 0; i < 10; i++){
-        sprintf(nombreDeArchivos, "ecuaciones/ECUACIONES-%d.txt", (i + 1));
-        archivoDeEcuaciones = fopen(nombreDeArchivos, "r");
-        if (!archivoDeEcuaciones){
-            continue;
-        } else {
-            fclose(archivoDeEcuaciones);
-            if (remove(nombreDeArchivos) == 0){
-                printf("Se elimino archivo %s\n", nombreDeArchivos);
+    archivoMapeos = fopen("ecuaciones/.mapa_sesiones.txt", "r");
+    if (archivoMapeos != NULL){
+        while(fscanf(archivoMapeos, "%d %s", &numSesion, nombreDeArchivo) == 2){
+            sprintf(rutaCompleta, "ecuaciones/%s.txt", nombreDeArchivo);
+            if(remove(rutaCompleta) == 0){
+                printf("Se elimino archivo %s\n", rutaCompleta);
             } else{
-                printf("No se pudo borrar archivo %s\n", nombreDeArchivos);
+                printf("No se pudo borrar archivo %s\n", rutaCompleta);
             };
-        };
+        }
+        fclose(archivoMapeos);
+        remove("ecuaciones/.mapa_sesiones.txt");
     };
 }
 
