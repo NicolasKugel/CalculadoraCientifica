@@ -2,46 +2,76 @@
 #include <stdlib.h>
 #include "constantes.h"
 
-void guardarYReiniciar(char (*ecuaciones)[LONG_DE_ECUACIONES]){
-    char nombreDeArchivos[30];
-    int i = 1, hayArchivosDisponibles = 0;
+void guardarYReiniciar(char (*ecuaciones)[LONG_DE_ECUACIONES]) {
+    char nombreArchivo[50], nombreSesion[51];
+    int existe = 0, i = 1, nombreValido = 1;
+    FILE *archivoDeEcuaciones, *archivoMapa;
 
-    FILE *archivoDeEcuaciones;
-    sprintf(nombreDeArchivos, "ecuaciones/ECUACIONES-%d.txt", i);
-    archivoDeEcuaciones = fopen(nombreDeArchivos, "r");
-    if (!archivoDeEcuaciones){
-        hayArchivosDisponibles = 1;
-        printf("Archivo numero %d de ecuaciones disponible\n", i);
-    };
-    while(archivoDeEcuaciones && !hayArchivosDisponibles && i <= CANTIDAD_DE_ARCHIVOS){
-        fclose(archivoDeEcuaciones);
-        i++;
-        sprintf(nombreDeArchivos, "ecuaciones/ECUACIONES-%d.txt", i);
-        printf("Intentando abrir archivo %s\n", nombreDeArchivos);
-        archivoDeEcuaciones = fopen((char *) nombreDeArchivos, "r");
-        if(!archivoDeEcuaciones){
-            hayArchivosDisponibles = 1;
-            printf("Archivo numero %d de ecuaciones disponible\n", i);
-        } else{
-            printf("Archivo numero %d de ecuaciones no disponible\n", i);
+    // --- 1. Pedir nombre de sesión ---
+    do {
+        if(!nombreValido){
+            printf("El nombre de archivo no debe superar los 50 caracteres\n");
+            printf("Caracteres que uso: %d", strlen(nombreSesion));
+        }
+        printf("Ingrese el nombre de la sesión: ");
+        fgets(nombreSesion, sizeof(nombreSesion), stdin);
+        nombreSesion[strlen(nombreSesion) - 1] = '\0'; // eliminar salto de línea
+        nombreValido = 0;
+    } while(strlen(nombreSesion) > 50);
+
+    // --- 2. Verificar si ya existe en el mapa ---
+    archivoMapa = fopen("ecuaciones/.mapa_sesiones.txt", "r");
+    if (archivoMapa != NULL) {
+        char nombreExistente[30];
+        int numSesion;
+
+        while (fscanf(archivoMapa, "%d %s", &numSesion, nombreExistente) == 2) {
+            if (strcmp(nombreSesion, nombreExistente) == 0) {
+                printf("Ya existe una sesión con el nombre '%s'. Elija otro.\n", nombreSesion);
+                fclose(archivoMapa);
+                return;
+            };
+            i = numSesion + 1; // si llegamos al final, el próximo número será i
+            if (i > CANTIDAD_DE_ARCHIVOS){
+                printf("Limite de 10 archivos superado, por favor elimine o sobreescriba otro archivo.\n");
+                fclose(archivoMapa);
+                return;
+            };
         };
-    };
-    if (hayArchivosDisponibles){
-        archivoDeEcuaciones = fopen(nombreDeArchivos, "w");
-        int i = 0;
-        while (*ecuaciones[i]){
-            fprintf(archivoDeEcuaciones, "%s\n", ecuaciones[i]);
-            i++;
-        };
+        fclose(archivoMapa);
+    }
+
+    // --- 3. Crear el nuevo archivo de ecuaciones ---
+    sprintf(nombreArchivo, "ecuaciones/%s.txt", nombreSesion);
+    archivoDeEcuaciones = fopen((char*)nombreArchivo, "w");
+    if (!archivoDeEcuaciones) {
+        printf("Error al crear el archivo de sesión '%s'\n", nombreArchivo);
+        return;
+    }
+
+    // --- 4. Escribir las ecuaciones ---
+    int j = 0;
+    while (*ecuaciones[j]) {
+        fprintf(archivoDeEcuaciones, "%s\n", ecuaciones[j]);
+        j++;
+    }
+    fclose(archivoDeEcuaciones);
+
+    // --- 5. Registrar en el mapa ---
+    archivoMapa = fopen("ecuaciones/.mapa_sesiones.txt", "a");
+    if (!archivoMapa) {
+        printf("Error al registrar el nombre en el mapa de sesiones.\n");
+        return;
+    }
+    fprintf(archivoMapa, "%d %s\n", i, nombreSesion);
+    fclose(archivoMapa);
+
+    // --- 6. Reiniciar archivo temporal ---
+    archivoDeEcuaciones = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "w");
+    if (archivoDeEcuaciones) {
         fclose(archivoDeEcuaciones);
-        archivoDeEcuaciones = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "r");
-        if (!archivoDeEcuaciones) {
-            printf("Aún no hay archivo temporal en está sesión\n");
-        } else {
-            fclose(archivoDeEcuaciones);
-            printf("Eliminando registros en archivo temporal de la sesión\n");
-            archivoDeEcuaciones = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "w");
-        };
-        fclose(archivoDeEcuaciones);
-    };
+        printf("Archivo temporal reiniciado correctamente.\n");
+    }
+
+    printf("Sesión '%s' guardada exitosamente como '%s'\n", nombreSesion, nombreArchivo);
 }
