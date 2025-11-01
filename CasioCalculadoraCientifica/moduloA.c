@@ -1,5 +1,11 @@
 #include "moduloA.h"
 #include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_EXPR 50
+
 void cadena_quitar_nueva_linea(char *s)
 {
     char *p = s;
@@ -106,9 +112,9 @@ int cadena_es_blanca(const char *s)
 }
 
 
-int leer_ecuacion_simple(char *dst, size_t tam)
+char* leer_ecuacion_simple(char *dst, int tam)
 {
-    size_t i = 0;
+    int i = 0;
     int c;
     int truncada = 0;
     int resultado;
@@ -167,30 +173,64 @@ int leer_ecuacion_simple(char *dst, size_t tam)
         if (!tiene_algo)
             resultado = -3; /* estaba vacia o solo blancos */
     }
-    resultado = truncada ? -2 : 0;
-    return resultado;
+    //resultado = truncada ? -2 : 0;
+
+    if (!truncada) {
+        char *ecuacion;
+        printf("Valor de la variable dst: %s\n", dst);
+        printf("Longitud de la variable dst: %ld\n", strlen(dst));
+        ecuacion = (char*)malloc(sizeof(char) * strlen(dst));
+        if (ecuacion == NULL){
+            printf("No se pudo reservar la memoria\n");
+        }
+        strcpy(ecuacion, dst);
+        return ecuacion;
+    };
+    return "\0";
 }
 
 
 void opcion_A_ingresar_ecuacion_demo(void)
 {
-    char expr[MAX_EXPR];
-    int rc = leer_ecuacion_simple(expr, sizeof(expr));
-    if (rc == 0)
-    {
-        /* expr ya viene sin espacios y en minuscula, lista para validar sintaxis y guardar */
-    }
-    else if (rc == -2)
-    {
-        puts("La ecuacion es demasiado larga.");
-    }
-    else if (rc == -3)
-    {
-        puts("No se ingreso ninguna ecuacion.");
-    }
-    else
-    {
-        puts("Error de lectura.");
-    }
+    char expr[MAX_EXPR], op;
+    char *rc;
+    FILE *aTmp = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "w");
+
+    if (aTmp == NULL) {
+        printf("Error al abrir el archivo temporal\n");
+        return;
+    };
+    do {
+        rc = leer_ecuacion_simple(expr, sizeof(expr));
+        if (*rc){
+            /* expr ya viene sin espacios y en minuscula, lista para validar sintaxis y guardar */
+            printf("Guardando ecuacion %s\n", rc);
+            fprintf(aTmp, "%s\n", rc);
+            free(rc);
+        }
+        else{
+            printf("Error en la ecuacion\n");
+            printf("Valor de RC: %s\n", rc);
+        };
+        /*
+        else if (rc == -2)
+        {
+            puts("La ecuacion es demasiado larga.");
+        }
+        else if (rc == -3)
+        {
+            puts("No se ingreso ninguna ecuacion.");
+        }
+        else
+        {
+            puts("Error de lectura.");
+        }
+        */
+        printf("Quiere seguir cargando ecuaciones ? (Y) si (X) no: ");
+        op = getchar();
+        while(getchar() != '\n');
+        op = toupper(op);
+    } while(op != 'X');
+    fclose(aTmp);
 }
 
