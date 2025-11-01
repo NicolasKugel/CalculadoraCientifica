@@ -1,9 +1,7 @@
 #ifndef MODULOD_INCLUDED
 #define MODULOD_INCLUDED
 
-int buscarOpcion(int, int []);
-
-int validarOpcion(int, int []);
+char *reservarEspacioParaEcuacion3(char *, int);
 
 void mostrarYSeleccionar();
 

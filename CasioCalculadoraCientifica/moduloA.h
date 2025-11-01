@@ -2,7 +2,7 @@
 #define MODULOA_H
 
 /* Prototipo de función: leer ecuación */
-int leer_ecuacion_simple(char *dst, size_t tam);
+char* leer_ecuacion_simple(char *dst, int tam);
 
 /* Quita el '\n' final si existe. */
 void cadena_quitar_nueva_linea(char *s);

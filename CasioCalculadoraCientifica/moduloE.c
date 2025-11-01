@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "constantes.h"
 
 void eliminarArchivosDeSesiones(){
-    char nombreDeArchivo[51];
-    char rutaCompleta[66];
+    char nombreDeArchivo[LONG_NOMBRE_DE_ARCHIVO], rutaCompleta[RUTA_COMPLETA_ARCHIVO];
     int numSesion;
     FILE *archivoMapeos;
 
@@ -20,7 +20,9 @@ void eliminarArchivosDeSesiones(){
         }
         fclose(archivoMapeos);
         remove("ecuaciones/.mapa_sesiones.txt");
-    };
+    }else {
+        printf("No se pudo abrir el archivo de mapeos\n");
+    }
 }
 
 
