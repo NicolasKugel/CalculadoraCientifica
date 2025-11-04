@@ -226,17 +226,15 @@ int validar_expresion_simple(char *cadena, int inicio, int fin, int *posicion_er
     for (posicion_actual = inicio; posicion_actual < fin; posicion_actual++) {
         char caracter_actual = cadena[posicion_actual];
 
-        /* 2.a) Validamos alfabeto permitido (SIN '=') */
+        /* 2.a) Validamos alfabeto permitido*/
         if (!((caracter_actual >= '0' && caracter_actual <= '9') ||
               caracter_actual == '.' || caracter_actual == ',' ||
               caracter_actual == 'x' || caracter_actual == 'y' ||
               caracter_actual == '+' || caracter_actual == '-' ||
               caracter_actual == '*' || caracter_actual == '/' ||
               caracter_actual == '^' || caracter_actual == '(' ||
-              caracter_actual == ')' ||
-              caracter_actual == 's' || caracter_actual == 'q' ||
-              caracter_actual == 'r' || caracter_actual == 't' ||
-              caracter_actual == 'o')) {
+              caracter_actual == ')' || caracter_actual == 'v'
+              )) {
             if (posicion_error_local) *posicion_error_local = posicion_actual - inicio;
             return 2;
         }
@@ -375,6 +373,7 @@ int ecuacion_guardar_en_archivo(char *ruta_archivo, char *cadena_ecuacion, int a
 
     /* 2) Abrir archivo en el modo solicitado */
     archivo = fopen(ruta_archivo, agregar_al_final ? "a" : "w");
+
     if (archivo == 0) return -2;
 
     /* 3) Escribir exactamente la ecuacion y un salto de linea */
