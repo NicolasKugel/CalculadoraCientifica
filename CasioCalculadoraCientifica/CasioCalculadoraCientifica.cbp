@@ -31,6 +31,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Pila.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Pila.h" />
+		<Unit filename="Utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Utils.h" />
+		<Unit filename="constantes.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -41,6 +50,31 @@
 		<Unit filename="moduloB.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="moduloB.h" />
+		<Unit filename="moduloC.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="moduloC.h" />
+		<Unit filename="moduloD.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="moduloD.h" />
+		<Unit filename="moduloE.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="moduloE.h" />
+		<Unit filename="moduloF.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="moduloF.h" />
+		<Unit filename="parser_funciones.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="parser_funciones.h" />
+		<Unit filename="reemplazar_variables.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="reemplazar_variables.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
