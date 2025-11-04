@@ -30,7 +30,6 @@ int main(){
         H - Ayuda\n\
         X - Salir\n\
         ");
-
         opcion = validarIngresoDeOpcion(opcion, opciones_validas);
 
         switch (opcion) {
@@ -48,11 +47,11 @@ int main(){
                 break;
             case 'D':
                 printf("Llamada al modulo D\n");
-                mostrarYSeleccionar();
+                //mostrarYSeleccionar();
                 break;
             case 'E':
                 printf("Llamada al modulo E\n");
-                eliminarArchivosDeSesiones();
+                //eliminarArchivosDeSesiones();
                 break;
             case 'F':
                 printf("Llamada al modulo F\n");
