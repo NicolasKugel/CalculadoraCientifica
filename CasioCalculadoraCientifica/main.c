@@ -68,10 +68,10 @@ int main(){
                 //eliminarArchivosDeSesiones();
                 break;
             case 'F':
-                printf("Llamada al modulo F");
+                printf("Llamada al modulo F\n");
                 break;
             case 'H':
-                printf("Llamada al modulo H");
+                printf("Llamada al modulo H\n");
                 break;
         }
     } while(opcion != 'X');
