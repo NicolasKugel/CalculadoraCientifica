@@ -6,6 +6,7 @@
 #include "moduloC.h"
 #include "moduloD.h"
 #include "moduloE.h"
+#include "moduloA.h"
 #define VERSION 1.0
 #define LONG_OPCIONES 9
 
@@ -34,8 +35,9 @@ int main(){
 
         switch (opcion) {
             case 'A':
-                printf("Llamada al modulo A");
-                break;
+                //printf("Llamada al modulo A");
+                opcion_A_ingresar_ecuacion_demo();
+            break;
             case 'B':
                 printf("Llamada al modulo B\n");
                 char vectorDeEcuaciones[10][50] = {{0}};
@@ -68,10 +70,10 @@ int main(){
                 eliminarArchivosDeSesiones();
                 break;
             case 'F':
-                printf("Llamada al modulo F");
+                printf("Llamada al modulo F\n");
                 break;
             case 'H':
-                printf("Llamada al modulo H");
+                printf("Llamada al modulo H\n");
                 break;
         }
     } while(opcion != 'X');
