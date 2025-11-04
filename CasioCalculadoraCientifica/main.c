@@ -34,30 +34,16 @@ int main(){
 
         switch (opcion) {
             case 'A':
-                moduloA_ejecutar();
-                break;
+                printf("Llamada al modulo A");
+                opcion_A_ingresar_ecuacion_demo();
+            break;
             case 'B':
                 printf("Llamada al modulo B\n");
-                char vectorDeEcuaciones[10][50] = {{0}};
-
-                strcpy(vectorDeEcuaciones[0], "x+3*2");
-                strcpy(vectorDeEcuaciones[1], "x*3+2");
-                strcpy(vectorDeEcuaciones[2], "x*3-2");
-
-                char (*pM)[50] = vectorDeEcuaciones;
-                int hayValores = 1;
-                //mostrarEcuacionesSesion(pM, hayValores);
+                mostrarEcuacionesSesion();
                 break;
             case 'C':
                 printf("Llamada al modulo C\n");
-                char vectorDeEcuaciones2[10][50] = {{0}};
-
-                strcpy(vectorDeEcuaciones2[0], "x+3*2");
-                strcpy(vectorDeEcuaciones2[1], "x*3+2");
-                strcpy(vectorDeEcuaciones2[2], "x*3-2");
-
-                char (*pM2)[50] = vectorDeEcuaciones2;
-                //guardarYReiniciar(pM2);
+                guardarYReiniciar();
                 break;
             case 'D':
                 printf("Llamada al modulo D\n");

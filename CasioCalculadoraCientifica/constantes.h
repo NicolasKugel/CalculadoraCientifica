@@ -1,8 +1,12 @@
 #ifndef CONSTANTES_INCLUDED
 #define CONSTANTES_INCLUDED
 
-const int CANTIDAD_DE_ECUACIONES = 10;
-const int CANTIDAD_DE_ARCHIVOS = 10;
-const int LONG_DE_ECUACIONES = 50; // auxiliar por el momento, usar memoria dinamrica en el modulo A
+#define CANTIDAD_DE_ECUACIONES 10
+#define CANTIDAD_DE_ARCHIVOS 10
+#define LONG_DE_ECUACIONES 50
+#define LONG_DE_SESIONES 51
+#define LONG_NOMBRE_DE_ARCHIVO 51
+#define RUTA_COMPLETA_ARCHIVO 66
+
 
 #endif // CONSTANTES_INCLUDED

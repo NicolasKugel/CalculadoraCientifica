@@ -447,7 +447,7 @@ int moduloA_ejecutar(void) {
    AYUDA: texto para guiar al usuario en el ingreso de la ecuacion
    ========================================================================= */
 void imprimir_ayuda(void) {
-    puts("AYUDA — Como cargar ecuaciones");
+    puts("AYUDA Â— Como cargar ecuaciones");
     puts("");
     puts("FORMATO GENERAL:");
     puts("  - La ecuacion debe tener un unico signo igual '=' (izquierda = derecha).");
