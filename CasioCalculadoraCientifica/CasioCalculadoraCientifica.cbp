@@ -39,11 +39,8 @@
 		</Unit>
 		<Unit filename="moduloA.h" />
 		<Unit filename="moduloB.c">
-		<Unit filename="moduloA" />
-		<Unit filename="moduloA.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="moduloA.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
