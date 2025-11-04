@@ -7,14 +7,12 @@
 #include <string.h>
 #include <math.h>
 #include "Pila.h"
+#include "reemplazar_variables.h"
 
-int prioridad(char);
+#define TAM_MSG_ERR 61
 
-double raiz(double, double);
 
-char* infix_a_postfix(const char*);
-
-double eval_postfix(const char*);
+char* resolverFuncion(char* func, double val_x, double val_y);
 
 
 #endif // PARSER_FUNCIONES_H_INCLUDED
