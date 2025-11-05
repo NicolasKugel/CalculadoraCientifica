@@ -2,15 +2,6 @@
 #define MODULOA_H
 
 /* =====================================================================
-   CONFIGURACION / CONSTANTES
-   ---------------------------------------------------------------------
-   - MAXIMO_LARGO_ECUACION: tope logico para leer una ecuacion desde stdin
-   - RUTA_ARCHIVO_TEMPORAL: ruta por defecto para guardar las ecuaciones
-   ===================================================================== */
-#define MAXIMO_LARGO_ECUACION 256
-#define RUTA_ARCHIVO_TEMPORAL "ecuaciones/ecuaciones-sesion-actual.tmp"
-
-/* =====================================================================
    moduloA_ejecutar():
      1) Solicita la ecuacion al usuario (stdin) con tope MAXIMO_LARGO_ECUACION
      2) Normaliza (quita espacios/tabs/CR y pasa a minuscula)
