@@ -30,34 +30,27 @@ int main(){
 
         switch (opcion) {
             case 'A':
-                //printf("Llamada al modulo A");
                 moduloA_ejecutar();
             break;
             case 'B':
-                printf("Llamada al modulo B\n");
                 mostrarEcuacionesSesion();
                 break;
             case 'C':
-                printf("Llamada al modulo C\n");
                 guardarYReiniciar();
                 break;
             case 'D':
-                printf("Llamada al modulo D\n");
                 mostrarYSeleccionar();
                 break;
             case 'E':
-                printf("Llamada al modulo E\n");
                 eliminarArchivosDeSesiones();
                 break;
             case 'F':
-                printf("Llamada al modulo F\n");
                 break;
             case 'H':
-                printf("Llamada al modulo H\n");
                 mostrarAyuda();
                 break;
         }
     } while(opcion != 'X');
-    printf("Llamada al modulo X");
+    reiniciarSesion();
     return 0;
 }

@@ -79,7 +79,7 @@ void guardarYReiniciar() {
     aTmp = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "r");
     while (fgets(ecuacion, sizeof(ecuacion), aTmp)) {
         ecuacion[strcspn(ecuacion, "\n")] = '\0';
-        printf("Guardando ecuacion %s\n", ecuacion);
+        // printf("Guardando ecuacion %s\n", ecuacion); debug
         fprintf(archivoDeEcuaciones, "%s\n", ecuacion);
     }
     fclose(archivoDeEcuaciones);
@@ -94,11 +94,7 @@ void guardarYReiniciar() {
     fclose(archivoMapa);
 
     // -- Reiniciar archivo temporal --
-    archivoDeEcuaciones = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "w");
-    if (archivoDeEcuaciones) {
-        fclose(archivoDeEcuaciones);
-        printf("Archivo temporal reiniciado correctamente.\n");
-    };
+    reiniciarSesion();
 
-    printf("Sesión '%s' guardada exitosamente como '%s'\n", sesion.nombre, rutaCompleta);
+    printf("Sesión '%s' guardada exitosamente en: '%s'\n", sesion.nombre, rutaCompleta);
 }

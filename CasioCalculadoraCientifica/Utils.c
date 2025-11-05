@@ -33,22 +33,26 @@ void mostrarSesiones(){
     };
 }
 
-void validarArchivoVacio(FILE *archivo){
+int validarArchivoVacio(FILE *archivo){
+    int hayInformacion = 0;
     int primerCaracter = fgetc(archivo);
     if (primerCaracter == EOF){
         printf("== No hay información ==\n");
     } else {
+        hayInformacion = 1;
         rewind(archivo);
     };
+    return hayInformacion;
 }
 
 void mostrarEcuacionesDelArchivo(FILE *archivo){
     char ecuacion[LONG_DE_ECUACIONES];
     int i = 1;
     printf("=== Ecuaciones de la sesión actual ===\n");
-    validarArchivoVacio(archivo);
-    while (fgets(ecuacion, sizeof(ecuacion), archivo)){
-        printf("[Ecuacion %d]. %s", i++, ecuacion);
+    if(validarArchivoVacio(archivo)){
+        while (fgets(ecuacion, sizeof(ecuacion), archivo)){
+            printf("[Ecuacion %d]. %s", i++, ecuacion);
+        };
     };
 }
 
@@ -63,7 +67,7 @@ void crearArchivosNecesarios(){
     archivo = fopen("ecuaciones/.mapa_sesiones.txt", "r");
     if (archivo == NULL){
         printf("Creando archivo para los mapeos\n");
-        archivo = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "w");
+        archivo = fopen("ecuaciones/.mapa_sesiones.txt", "w");
     }
     fclose(archivo);
 }
@@ -93,4 +97,13 @@ char validarIngresoDeOpcion(char op){
         band = 0;
     } while (!buscarOpcionEnOpciones(op, opciones_validas));
     return op;
+};
+
+void reiniciarSesion(){
+    FILE *aSesionActual;
+    aSesionActual = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "w");
+    if (aSesionActual) {
+        fclose(aSesionActual);
+        // printf("Archivo temporal reiniciado correctamente.\n"); debug
+    };
 };

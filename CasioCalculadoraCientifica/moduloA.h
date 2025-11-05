@@ -72,13 +72,4 @@ int ecuacion_validar(char *cadena_ecuacion, int *posicion_error);
    ===================================================================== */
 int ecuacion_guardar_en_archivo(char *ruta_archivo, char *cadena_ecuacion, int agregar_al_final);
 
-/* =====================================================================
-   AYUDA
-   ---------------------------------------------------------------------
-   imprimir_ayuda:
-     - Muestra por pantalla las reglas de ingreso de ecuaciones
-   ===================================================================== */
-void imprimir_ayuda(void);
-
-
 #endif

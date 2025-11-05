@@ -9,12 +9,14 @@ void mostrarSesiones();
 
 void mostrarEcuacionesDelArchivo(FILE *archivo);
 
-void validarArchivoVacio(FILE *archivo);
+int validarArchivoVacio(FILE *archivo);
 
 void crearArchivosNecesarios();
 
 char validarIngresoDeOpcion(char);
 
 int buscarOpcionEnOpciones(char, char*);
+
+void reiniciarSesion();
 
 #endif // UTILS_H_INCLUDED

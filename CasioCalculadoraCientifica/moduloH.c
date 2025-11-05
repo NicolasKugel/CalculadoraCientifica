@@ -8,12 +8,12 @@ int mostrarAyuda(){
     do {
         printf("Escriba letra del modulo para ver su ayuda:\n\
         OPCION - DESCRIPCION \n\
-        A - Escribir ecuacion \n\
-        B - Ver ecuaciones de la sesion\n\
-        C - Guardar y reiniciar sesion\n\
-        D - Leer ecuaciones guardadas\n\
-        E - Borrar ecucaciones guardadas\n\
-        F - Resolver ecuacion\n\
+        A - Cómo escribir una ecuacion \n\
+        B - Cómo ver ecuaciones de la sesion\n\
+        C - Cómo guardar y reiniciar sesion\n\
+        D - Cómo leer ecuaciones guardadas\n\
+        E - Cómo borrar ecucaciones guardadas\n\
+        F - Cómo resolver una ecuacion\n\
         H - Ayuda de nuevo\n\
         X - Salir\n\
         ");
@@ -21,7 +21,27 @@ int mostrarAyuda(){
 
         switch (opcion) {
             case 'A':
-                printf("Ayuda modulo A");
+                printf(
+                "\n=== MODULO A - ESCRIBIR UNA ECUACION ===\n"
+                "FORMATO GENERAL:\n"
+                "  - La ecuacion no debe tener signo igual '='\n"
+                "  - Se permiten espacios, el programa los elimina al procesar\n\n"
+                "VARIABLES PERMITIDAS: x, y\n\n"
+                "OPERADORES PERMITIDOS: +  -  *  /  ^  v\n"
+                "  - 'v' para raices: '2v49' = raiz cuadrada de 49\n"
+                "  - Menos unario permitido al inicio, tras operador o tras '('\n\n"
+                "NUMEROS:\n"
+                "  - Usar '.' para decimales (ej: 3.5)\n"
+                "  - No usar notacion cientifica\n\n"
+                "DIVISIONES (REGLA ESPECIAL):\n"
+                "  - No se permite dividir por cero literal: /0, /(0), /0.0, etc.\n"
+                "  - Division por variables (/x, /(x+y)) si esta permitida\n\n"
+                "EJEMPLOS VALIDOS:\n"
+                "  y+2*x+3        x^2+y^2-25        xvy        (5+x)/(6+y)\n\n"
+                "EJEMPLOS INVALIDOS:\n"
+                "  x++y=3 (operadores seguidos)    (x+y=3 (parentesis sin cerrar)\n"
+                "  y=3,5 (usar punto, no coma)     y=1/0 (division por cero)\n\n"
+                );
             break;
             case 'B':
                 printf("\n=== MODULO B - VER ECUACIONES DE LA SESION ===\n");

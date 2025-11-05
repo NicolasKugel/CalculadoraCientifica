@@ -74,6 +74,7 @@
 		<Unit filename="moduloH.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="moduloH.h" />
 		<Unit filename="parser_funciones.c">
 			<Option compilerVar="CC" />
 		</Unit>

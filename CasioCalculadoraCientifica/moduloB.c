@@ -8,7 +8,6 @@ void mostrarEcuacionesSesion() {
 
     if (temp == NULL) {
         printf("Error al leer archivo temporal\n");
-        return;
     } else {
         mostrarEcuacionesDelArchivo(temp);
         fclose(temp);
