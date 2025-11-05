@@ -1,6 +1,5 @@
-#include "constantes.h"
-#include "comun.h"
-#include <ctype.h>
+#include "Utils.h"
+
 
 void clearScreen()
 {
@@ -54,6 +53,7 @@ void mostrarEcuacionesDelArchivo(FILE *archivo){
             printf("[Ecuacion %d]. %s", i++, ecuacion);
         };
     };
+    rewind(archivo);
 }
 
 void crearArchivosNecesarios(){
@@ -107,3 +107,25 @@ void reiniciarSesion(){
         // printf("Archivo temporal reiniciado correctamente.\n"); debug
     };
 };
+
+// convierto valor de double a string
+char* doubleAString(double val)
+{
+    char* buffer = NULL;
+    char* buffer_aux = NULL;
+    int len = 0;
+    buffer_aux = (char*) malloc(TAM_NUM);
+    if(val == trunc(val))
+    {
+        sprintf(buffer_aux, "%.0lf", val);
+    }
+    else
+    {
+        sprintf(buffer_aux, "%lf", val);
+    }
+    len = strlen(buffer_aux);
+    buffer = (char*) malloc(len + 1);
+    memcpy(buffer, buffer_aux, len + 1);
+    free(buffer_aux);
+    return buffer;
+}

@@ -1,6 +1,11 @@
 #ifndef UTILS_H_INCLUDED
 #define UTILS_H_INCLUDED
 
+#include <ctype.h>
+#include <math.h>
+#include "constantes.h"
+#include "comun.h"
+
 void clearScreen();
 
 void waitEnter();
@@ -18,5 +23,7 @@ char validarIngresoDeOpcion(char);
 int buscarOpcionEnOpciones(char, char*);
 
 void reiniciarSesion();
+
+char* doubleAString(double);
 
 #endif // UTILS_H_INCLUDED

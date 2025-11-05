@@ -12,6 +12,8 @@
 #define LONG_DE_ECUACIONES 50
 #define LONG_NOMBRE_DE_ARCHIVO 60
 #define RUTA_COMPLETA_ARCHIVO 75
+#define TAM_MSG_ERR 61
+#define TAM_NUM 58
 
 /* =====================================================================
    CONFIGURACION / CONSTANTES

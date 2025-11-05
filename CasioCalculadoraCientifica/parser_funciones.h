@@ -1,15 +1,13 @@
 #ifndef PARSER_FUNCIONES_H_INCLUDED
 #define PARSER_FUNCIONES_H_INCLUDED
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <ctype.h>
-#include <string.h>
 #include <math.h>
+#include "comun.h"
 #include "Pila.h"
 #include "reemplazar_variables.h"
-
-#define TAM_MSG_ERR 61
+#include "constantes.h"
+#include "Utils.h"
 
 
 char* resolverFuncion(char* func, double val_x, double val_y);
