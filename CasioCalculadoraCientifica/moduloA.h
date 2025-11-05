@@ -18,13 +18,13 @@
     -4  -> error de archivo al guardar
     >0  -> codigo de error de validacion (ver ecuacion_validar)
    ===================================================================== */
-int moduloA_ejecutar(void);
+int moduloA_ejecutar(int *ecuaciones_guardadas);
 
 /* Variante para indicar otra ruta y modo de escritura:
    - ruta_archivo: archivo destino
    - agregar_al_final: 1 para append, 0 para reescribir
 */
-int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final);
+int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final,int *ecuaciones_guardadas);
 
 /* =====================================================================
    UTILIDADES DE I/O
