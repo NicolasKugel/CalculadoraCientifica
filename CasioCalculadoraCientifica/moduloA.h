@@ -4,9 +4,8 @@
 /* =====================================================================
    moduloA_ejecutar():
      1) Solicita la ecuacion al usuario (stdin) con tope MAXIMO_LARGO_ECUACION
-     2) Normaliza (quita espacios/tabs/CR y pasa a minuscula)
+     2) Normaliza
      3) Valida:
-        - Debe haber un unico '=' (no al inicio ni al final)
         - Parentesis balanceados
         - Operadores correctos (permite '-' unario)
         - SIN division por cero literal (ej.: /0, /(0), /0.0, /(-0))
@@ -53,33 +52,14 @@ void ecuacion_normalizar(char *cadena_ecuacion);
    VALIDACION
    ---------------------------------------------------------------------
    ecuacion_validar:
-     - Reglas generales de la ecuacion:
-       * Debe haber exactamente UN '='
-       * No al inicio ni al final
-       * Ambos lados deben ser expresiones validas
      - Reglas de cada expresion:
        * Caracteres permitidos: digitos [0-9], '.', ',', 'x', 'y'
          operadores '+', '-', '*', '/', '^', parentesis '(' y ')'
-         y letras 's','q','r','t','o' (para "sqrt" y "root")
+         y 'v'
        * Parentesis balanceados
        * No dos operadores binarios seguidos (permite '-' unario)
        * No termina en operador binario
        * SIN division por cero literal (ej.: /0, /(0), /0.0, /(-0))
-     Codigos de retorno:
-       0  OK
-       1  vacia (o algun lado vacio)
-       2  caracter invalido
-       3  parentesis cerrados de mas
-       4  operadores binarios seguidos
-       5  termina en operador
-       6  parentesis desbalanceados
-       7  mas de un '='
-       8  '=' al inicio o al final
-       9  lado izquierdo vacio
-      10  lado derecho vacio
-      11  falta '='
-      12  division por cero literal
-     *posicion_error (si no es 0) recibe la posicion aproximada del problema
    ===================================================================== */
 int ecuacion_validar(char *cadena_ecuacion, int *posicion_error);
 
@@ -87,7 +67,6 @@ int ecuacion_validar(char *cadena_ecuacion, int *posicion_error);
    GUARDADO EN ARCHIVO
    ---------------------------------------------------------------------
    ecuacion_guardar_en_archivo:
-     - Abre la ruta indicada en modo append (agregar_al_final=1) o write (0)
      - Escribe exactamente: "<ecuacion>\n"
      Retorna: 0 OK, -1 argumentos invalidos, -2 error de archivo
    ===================================================================== */
