@@ -2,7 +2,6 @@
 #include "moduloA.h"
 #include "constantes.h"
 #include <ctype.h>
-#include <conio.h>
 
 /* =========================================================================
    LECTURA: guarda en 'destino' una linea de stdin (sin '\n' final)
@@ -30,20 +29,12 @@ int leer_ecuacion_en_buffer(char *destino, int tamanio) {
         destino[longitud_leida - 1] = '\0';
         return 0;
     }
-
-    /* 5) Si NO hay '\n', significa que la linea fue mas larga que el tope:
-          consumimos el resto hasta fin de linea o EOF para limpiar stdin */
-    {
-        int caracter_extra;
-        do { caracter_extra = getchar(); } while (caracter_extra != '\n' && caracter_extra != EOF);
-    }
     return -2;  /* Indicamos que se excedio el largo permitido */
 }
 
 /* ============================================================
-   Permite editar una linea con "prefill" y borrar todo, incluso lo precargado.
-   - En Windows usa _getch() (conio.h) para leer tecla por tecla sin edición de consola.
-   - En otros SO cae a un fallback con getchar() (no podras borrar el prefill).
+   Permite editar la ecuacion cargando la misma en el buffer y agregando contenido a la misma.
+   No se puede borrar parte de la funcion que ya esta cargada. En ese caso hay que crear una ecuacion nueva.
    Parametros:
      destino        -> buffer de salida (terminado en '\0')
      tamanio        -> capacidad total de 'destino' (incluye '\0')
@@ -58,7 +49,7 @@ int ingresar_editar_ecuacion(char *destino, int tamanio, char *texto_inicial)
 
     if (destino == 0 || tamanio <= 1) return -1;
 
-    /* --- Cargar prefill en destino (soporta destino == texto_inicial) --- */
+    /* --- Cargar texto inicial en destino (soporta destino == texto_inicial) --- */
     if (texto_inicial != 0) {
         int i = 0;
         if (texto_inicial != destino) {
@@ -77,82 +68,19 @@ int ingresar_editar_ecuacion(char *destino, int tamanio, char *texto_inicial)
         longitud_actual = 0;
     }
 
-    /* Mostrar prefill en pantalla */
+    /* Mostrar buffer en pantalla */
     fputs(destino, stdout);
     fflush(stdout);
 
-#ifdef _WIN32
-    /* =========================
-       Implementacion para Windows
-       ========================= */
     {
-        int tecla;
-        for (;;) {
-            tecla = _getch();  /* no hace eco, lee al toque */
-
-            /* ENTER: finalizar */
-            if (tecla == 13) {
-                putchar('\n');
-                destino[longitud_actual] = '\0';
-                return 0;
-            }
-
-            /* Backspace: borrar ultimo caracter si hay */
-            if (tecla == 8) {
-                if (longitud_actual > 0) {
-                    longitud_actual--;
-                    destino[longitud_actual] = '\0';
-                    fputs("\b \b", stdout);   /* mueve cursor atras, borra, vuelve atras */
-                    fflush(stdout);
-                }
-                continue;
-            }
-
-            /* Teclas especiales (flechas, etc.) llegan como 0 o 224 y luego otro codigo: las ignoramos */
-            if (tecla == 0 || tecla == 224) {
-                (void)_getch();  /* consumir el siguiente byte de la tecla especial */
-                continue;
-            }
-
-            /* Caracter imprimible (espacio..~) */
-            if (tecla >= 32 && tecla <= 126) {
-                if (longitud_actual < tamanio - 1) {
-                    destino[longitud_actual] = (char)tecla;
-                    longitud_actual++;
-                    destino[longitud_actual] = '\0';
-                    putchar(tecla);  /* eco manual */
-                    fflush(stdout);
-                } else {
-                    /* buffer lleno: opcional beep */
-                    /* putchar('\a'); */
-                }
-                continue;
-            }
-
-            /* Ignorar cualquier otro */
-        }
-    }
-#else
-    /* ===========================================
-       Fallback generico (getchar, line-buffered)
-       Nota: aqui no vas a poder borrar el prefill,
-       porque la consola edita la linea por vos.
-       =========================================== */
-    {
+        /* Captura caracter por caracter y los agrega a destino */
         int c;
         while ((c = getchar()) != '\n' && c != EOF) {
-            if (c == 8 || c == 127) {       /* backspace/del */
-                if (longitud_actual > 0) {
-                    longitud_actual--;
-                    destino[longitud_actual] = '\0';
-                    fputs("\b \b", stdout);
-                }
-            } else if (c >= 32 && c <= 126) {
+            if (c >= 32 && c <= 126) {
                 if (longitud_actual < tamanio - 1) {
                     destino[longitud_actual] = (char)c;
                     longitud_actual++;
                     destino[longitud_actual] = '\0';
-                    putchar(c);
                 }
             }
         }
@@ -160,7 +88,6 @@ int ingresar_editar_ecuacion(char *destino, int tamanio, char *texto_inicial)
         destino[longitud_actual] = '\0';
         return 0;
     }
-#endif
 }
 
 /* =========================================================================
@@ -228,28 +155,28 @@ int es_operador_binario(char caracter) {
     return (caracter == '+' || caracter == '-' || caracter == '*' || caracter == '/' || caracter == '^' || caracter == 'v');
 }
 
-/* Lee un caracter de opcion y limpia el resto de la linea de stdin */
- int leer_opcion_yg(char *opcion) {
+/* Lee una letra del teclado y limpia el resto de la linea */
+int leer_opcion_yg(char *opcion)
+{
     int c;
 
-    /* 1) Leer un caracter real (salteando CR) */
-    do {
+    if (opcion == 0) return -1;   /* por seguridad */
+
+    /* Leer el primer caracter que no sea ENTER */
+    c = getchar();
+    if (c == EOF) return -1;      /* fin de archivo o error */
+
+    *opcion = (char)c;            /* guardo la opcion leida */
+
+    /* Limpiar el resto de la linea (caracteres que el usuario haya tecleado de más) */
+    while (c != '\n' && c != EOF) {
         c = getchar();
-        if (c == EOF) return -1;
-    } while (c == '\r'); /* ignorar CR por compatibilidad */
+    }
 
-    *opcion = (char)c;
-
-    /* 2) Consumir el resto de la linea hasta '\n' o EOF */
-    do {
-        c = getchar();
-        if (c == '\n' || c == EOF) break;
-    } while (1);
-
-    return 0;
+    return 0;   /* todo ok */
 }
 
-/*  Determina si el literal numerico en [posicion_inicio..posicion_final) es exactamente CERO
+/*  Determina si el literal numerico es exactamente CERO
     - Acepta formas: "0", "00", "0.0", ".0", "00.00"
     - No acepta notacion cientifica
     - cantidad_avance devuelve la cantidad de caracteres consumidos como numero
@@ -295,7 +222,7 @@ int es_literal_cero(char *cadena, int posicion_inicio, int posicion_final, int *
 
 /*  Verifica si hay DIVISION POR CERO a partir de s[posicion_division] == '/'
     - Permite parentesis envolventes: /(0), /((0.0)), etc.
-    - Permite signo unario: /-0, /(-0.0)
+    - Permite signo unario:  /(-0.0)
     - Si detecta cero literal, retorna 1; si no, 0
     - 'avance' (si no es 0) recibe cuantos caracteres pertenecen al divisor inspeccionado
 */
@@ -372,12 +299,12 @@ int validar_expresion_simple(char *cadena, int inicio, int fin, int *posicion_er
 
         /* 2.a) Validamos alfabeto permitido*/
         if (!((caracter_actual >= '0' && caracter_actual <= '9') ||
-              caracter_actual == '.' || caracter_actual == ',' ||
-              caracter_actual == 'x' || caracter_actual == 'y' ||
+              caracter_actual == '.' || caracter_actual == 'x' ||
+              caracter_actual == 'y' || caracter_actual == 'v' ||
               caracter_actual == '+' || caracter_actual == '-' ||
               caracter_actual == '*' || caracter_actual == '/' ||
               caracter_actual == '^' || caracter_actual == '(' ||
-              caracter_actual == ')' || caracter_actual == 'v'
+              caracter_actual == ')'
               )) {
             if (posicion_error_local) *posicion_error_local = posicion_actual - inicio;
             return 2;
@@ -416,7 +343,7 @@ int validar_expresion_simple(char *cadena, int inicio, int fin, int *posicion_er
             /* Marca: acabamos de ver un operador */
             ultimo_fue_operador = 1;
         } else if (caracter_actual != '(' && caracter_actual != ',') {
-            /* Cualquier cosa que no sea operador ni '(' ni ',' cuenta como "valor" */
+            /* Cualquier cosa que no sea operador ni '(' ni '.' cuenta como "valor" */
             ultimo_fue_operador = 0;
         }
     }
@@ -440,13 +367,8 @@ int validar_expresion_simple(char *cadena, int inicio, int fin, int *posicion_er
     return 0;
 }
 
-/*  Valida la ECUACION completa con '=' aplicando validar_expresion_simple a ambos lados.
-    Retorna los mismos codigos + los de igualdad:
-      7 mas de un '='
-      8 '=' al inicio o al final
-      9 lado izquierdo vacio
-     10 lado derecho vacio
-     11 falta '='
+/*  Valida la ECUACION completa aplicando validar_expresion_simple.
+    Retorna los mismos codigos
 */
 int ecuacion_validar(char *cadena_ecuacion, int *posicion_error) {
     int largo_total;
@@ -518,9 +440,7 @@ int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final) {
     /* Bucle principal: permitir editar -> validar -> decidir (editar/guardar) */
     while (seguir_editando) {
 
-        /* 1) Pedir/editar la ecuacion con pre-carga del contenido actual.
-              - La primera vez, ecuacion="" (cadena vacia).
-              - Las siguientes, queda el ultimo texto escrito para seguir editando. */
+        /* 1) Pedir/editar la ecuacion carga del buffer en caso necesario.*/
         if(ya_ingrese_ecu==0){
             puts("Ingrese la ecuacion (maximo 256 caracteres) y presione Enter:");
         }else{
@@ -532,7 +452,7 @@ int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final) {
             return resultado_operacion; /* error del editor */
         }
 
-        /* 2) Normalizar (elimina espacios/tabs/CR y pasa a minuscula) */
+        /* 2) Normalizar (elimina espacios/tabs/ y pasa a minuscula) */
         ecuacion_normalizar(ecuacion);
         if (ecuacion[0] == '\0') {
             puts("La ecuacion quedo vacia tras limpiar. Vuelva a ingresar.");
@@ -540,7 +460,7 @@ int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final) {
             continue;
         }
 
-        /* 3) Validar ECUACION completa (incluye '=', operadores, parentesis, division por cero literal) */
+        /* 3) Validar ECUACION completa (operadores, parentesis, division por cero literal) */
         resultado_operacion = ecuacion_validar(ecuacion, &posicion_error_detectada);
         if (resultado_operacion != 0) {
             /* No salimos: informamos y damos chance de re-editar sobre el mismo texto */
@@ -550,32 +470,33 @@ int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final) {
                 printf("Ecuacion invalida (codigo %d) en posicion %d.\n", resultado_operacion, posicion_error_detectada);
             }
             puts("Presione Enter para reintentar y corregir sobre la misma ecuacion...");
-            /* Usamos el mismo editor con prefill en el proximo ciclo */
             continue;
         }
 
         /* 4) Mostrar ecuacion validada y preguntar si quiere editar o guardar */
         printf("Ecuacion actual (VALIDA): %s\n", ecuacion);
 
-        /* Pregunta con validacion correcta (usar AND en la condicion) */
+        /* Pregunta con validacion */
         do {
-            printf("Desea (E)ditar o (G)uardar? (ingrese E o G unicamente): ");
+            printf("Desea (E)ditar, (C)ancelar (G)uardar? (ingrese E, C o G unicamente)\n");
+            printf("Si presiona editar tenga en cuenta que solo se pueden agregar caracteres a la ecuacion pero sin borrar los que ya cargaste.");
             if (leer_opcion_yg(&opcion) != 0) {
                 puts("Error de lectura de opcion.");
                 return -1;
             }
-            if (opcion != 'e' && opcion != 'E' && opcion != 'g' && opcion != 'G') {
+            if (opcion != 'e' && opcion != 'E' && opcion != 'g' && opcion != 'G' && opcion != 'c' && opcion != 'C') {
                 puts("Opcion incorrecta. Intente de nuevo.");
             }
-        } while (opcion != 'e' && opcion != 'E' && opcion != 'g' && opcion != 'G');
+        } while (opcion != 'e' && opcion != 'E' && opcion != 'g' && opcion != 'G' && opcion != 'c' && opcion != 'C');
 
         /* 5) Decidir segun opcion */
         if (opcion == 'e' || opcion == 'E') {
             /* Volver a editar: mantenemos el contenido en 'ecuacion' y repetimos el while */
             ya_ingrese_ecu = 1;
             seguir_editando = 1;
-        } else {
-            /* Guardar y salir del bucle */
+        } else if (opcion == 'c' || opcion == 'C'){
+            moduloA_ejecutar_con_ruta(RUTA_ARCHIVO_TEMPORAL, 1);
+        }else{
             seguir_editando = 0;
         }
     }
