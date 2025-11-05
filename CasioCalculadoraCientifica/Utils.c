@@ -1,5 +1,6 @@
 #include "constantes.h"
-#include <stdio.h>
+#include "comun.h"
+#include <ctype.h>
 
 void clearScreen()
 {
@@ -12,9 +13,8 @@ void clearScreen()
 
 void waitEnter()
 {
-    while (getchar() != '\n'); // limpia el buffer
     printf("\nPresiona Enter para continuar...");
-    getchar();
+    while (getchar() != '\n'); // limpia el buffer
 }
 
 // Lista los archivos de sesiones previas guardados.
@@ -33,17 +33,7 @@ void mostrarSesiones(){
     };
 }
 
-void mostrarEcuacionesDelArchivo(FILE *archivo){
-    char ecuacion[LONG_DE_ECUACIONES];
-    int i = 1;
-    printf("=== Ecuaciones de la sesión actual ===\n");
-    __validarArchivoVacio(archivo);
-    while (fgets(ecuacion, sizeof(ecuacion), archivo)){
-        printf("[Ecuacion %d]. %s", i++, ecuacion);
-    };
-}
-
-void __validarArchivoVacio(FILE *archivo){
+void validarArchivoVacio(FILE *archivo){
     int primerCaracter = fgetc(archivo);
     if (primerCaracter == EOF){
         printf("== No hay información ==\n");
@@ -52,12 +42,55 @@ void __validarArchivoVacio(FILE *archivo){
     };
 }
 
+void mostrarEcuacionesDelArchivo(FILE *archivo){
+    char ecuacion[LONG_DE_ECUACIONES];
+    int i = 1;
+    printf("=== Ecuaciones de la sesión actual ===\n");
+    validarArchivoVacio(archivo);
+    while (fgets(ecuacion, sizeof(ecuacion), archivo)){
+        printf("[Ecuacion %d]. %s", i++, ecuacion);
+    };
+}
+
 void crearArchivosNecesarios(){
     FILE *archivo;
-    archivo = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "w");
+    archivo = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "r");
+    if (archivo == NULL){
+        printf("Creando archivo temporal de sesión\n");
+        archivo = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "w");
+    }
     fclose(archivo);
-    archivo = fopen("ecuaciones/.mapa_sesiones.txt", "w");
+    archivo = fopen("ecuaciones/.mapa_sesiones.txt", "r");
+    if (archivo == NULL){
+        printf("Creando archivo para los mapeos\n");
+        archivo = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "w");
+    }
     fclose(archivo);
 }
 
+int buscarOpcionEnOpciones(char op, char *ops){
+    while(*ops){
+        if (op == *ops){
+            return 1;
+        };
+        ops++;
+    }
 
+    return 0;
+};
+
+char validarIngresoDeOpcion(char op){
+    char opciones_validas[LONG_OPCIONES] = {'A', 'B', 'C', 'D', 'E', 'F', 'H', 'X', '\0'};
+    int band = 1;
+    do {
+        if (!band){
+            printf("Opcion ingresada %c no es valida \n", op);
+        }
+
+        printf("Opcion: ");
+        op = toupper(getchar());
+        while (getchar() != '\n'); // Limpiar buffer
+        band = 0;
+    } while (!buscarOpcionEnOpciones(op, opciones_validas));
+    return op;
+};

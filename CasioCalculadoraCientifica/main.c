@@ -6,14 +6,12 @@
 #include "moduloC.h"
 #include "moduloD.h"
 #include "moduloE.h"
+#include "moduloH.h"
 #include "Utils.h"
 
-char validarIngresoDeOpcion(char, char*);
-int buscarOpcionEnOpciones(char, char*);
 
 int main(){
     char opcion = 'X';
-    char opciones_validas[LONG_OPCIONES] = {'A', 'B', 'C', 'D', 'E', 'F', 'H', 'X', '\0'};
     crearArchivosNecesarios();
 
     do {
@@ -28,7 +26,7 @@ int main(){
         H - Ayuda\n\
         X - Salir\n\
         ");
-        opcion = validarIngresoDeOpcion(opcion, opciones_validas);
+        opcion = validarIngresoDeOpcion(opcion);
 
         switch (opcion) {
             case 'A':
@@ -56,38 +54,10 @@ int main(){
                 break;
             case 'H':
                 printf("Llamada al modulo H\n");
+                mostrarAyuda();
                 break;
         }
     } while(opcion != 'X');
     printf("Llamada al modulo X");
     return 0;
 }
-
-char validarIngresoDeOpcion(char op, char *ops){
-    int band = 1;
-    char *posicion_inicial = ops;
-    do {
-        if (!band){
-            printf("Opcion ingresada %c no es valida \n", op);
-        }
-
-        printf("Opcion: ");
-        op = getchar();
-        while (getchar() != '\n'); // Limpiar buffer
-        op = toupper(op);
-        band = 0;
-    } while (!buscarOpcionEnOpciones(op, posicion_inicial));
-
-    return op;
-};
-
-int buscarOpcionEnOpciones(char op, char *ops){
-    while(*ops){
-        if (op == *ops){
-            return 1;
-        };
-        ops++;
-    }
-
-    return 0;
-};
