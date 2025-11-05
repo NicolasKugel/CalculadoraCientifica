@@ -6,6 +6,7 @@ int mostrarAyuda(){
 
     printf("== Ingresando al menú de ayuda ==\n");
     do {
+        clearScreen();
         printf("Escriba letra del modulo para ver su ayuda:\n\
         OPCION - DESCRIPCION \n\
         A - Cómo escribir una ecuacion \n\
@@ -21,6 +22,7 @@ int mostrarAyuda(){
 
         switch (opcion) {
             case 'A':
+                clearScreen();
                 printf(
                 "\n=== MODULO A - ESCRIBIR UNA ECUACION ===\n"
                 "FORMATO GENERAL:\n"
@@ -42,8 +44,10 @@ int mostrarAyuda(){
                 "  x++y=3 (operadores seguidos)    (x+y=3 (parentesis sin cerrar)\n"
                 "  y=3,5 (usar punto, no coma)     y=1/0 (division por cero)\n\n"
                 );
-            break;
+                waitEnter();
+                break;
             case 'B':
+                clearScreen();
                 printf("\n=== MODULO B - VER ECUACIONES DE LA SESION ===\n");
                 printf("DESCRIPCION: Muestra todas las ecuaciones cargadas en la sesión actual.\n");
                 printf("MODO DE USO:\n");
@@ -56,6 +60,7 @@ int mostrarAyuda(){
                 waitEnter();
                 break;
             case 'C':
+                clearScreen();
                 printf("\n=== MODULO C - GUARDAR Y REINICIAR SESION ===\n");
                 printf("DESCRIPCION: Guarda la sesión actual y prepara una nueva sesión.\n");
                 printf("MODO DE USO:\n");
@@ -71,6 +76,7 @@ int mostrarAyuda(){
                 waitEnter();
                 break;
             case 'D':
+                clearScreen();
                 printf("Ayuda modulo D");
                 printf("\n=== MODULO D - LEER ECUACIONES GUARDADAS ===\n");
                 printf("DESCRIPCION: Carga una sesión guardada anteriormente.\n");
@@ -85,6 +91,7 @@ int mostrarAyuda(){
                 waitEnter();
                 break;
             case 'E':
+                clearScreen();
                 printf("\n=== MODULO E - BORRAR ECUACIONES GUARDADAS ===\n");
                 printf("DESCRIPCION: Elimina sesiones guardadas permanentemente.\n");
                 printf("MODO DE USO:\n");
@@ -96,10 +103,25 @@ int mostrarAyuda(){
                 waitEnter();
                 break;
             case 'F':
-                printf("Ayuda modulo F");
+                clearScreen();
+                printf("\n=== MODULO F - RESOLVER ECUACION ===\n");
+                printf("DESCRIPCION: Ejecuta la ecuacuion seleccionada con los valores que se ingresan.\n");
+                printf("MODO DE USO:\n");
+                printf("  Al iniciar el modulo, se le va a pedir seleccionar una de las ecuaciones cargadas en la sesion.\n");
+                printf("  Al hacer esto, se le va a direccionar al menu de \"seleccion de operacion\", en el cual \n");
+                printf("  se le va a pedir indicar que operacion realiza: \n\n");
+                printf("    * Resolver ecuacion con tabla manual de valores: Se generan N cantidad de \n");
+                printf("      casos, cada uno con su X e Y correspondientes.\n");
+                printf("    * Resolver ecuacion con valor unico y rangos (+-5): Se ingresa un unico par X e Y, y se genera \n");
+                printf("      una tabla con un rango que va desde (n - 5) a (n + 5) para ambas variables.\n");
+                printf("\n  Si una de las variables no se encuentra en la funcion, los valores ingresados \n");
+                printf("  son ignorados para la resolucion de la misma.\n");
+                printf("RESTRICCIONES:\n");
+                printf("  - Se debe respetar el tipo de dato en cada ingreso, caso contrario el programa puede fallar.\n\n");
                 waitEnter();
                 break;
             case 'H':
+                clearScreen();
                 printf("\n=== MODULO H - AYUDA DEL PROGRAMA ===\n");
                 printf("DESCRIPCION: Proporciona información de uso para todos los módulos.\n");
                 printf("MODO DE USO:\n");
