@@ -1,8 +1,6 @@
-#include "moduloA.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
+#include "comun.h"
+#include "moduloA.h"
 
 /* =========================================================================
    LECTURA: guarda en 'destino' una linea de stdin (sin '\n' final)

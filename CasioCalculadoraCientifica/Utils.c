@@ -1,5 +1,5 @@
-#include "Utils.h"
 #include "constantes.h"
+#include <stdio.h>
 
 void clearScreen()
 {
@@ -17,6 +17,7 @@ void waitEnter()
     getchar();
 }
 
+// Lista los archivos de sesiones previas guardados.
 void mostrarSesiones(){
     int numSesion;
     FILE *archivoMapeo;
@@ -31,4 +32,32 @@ void mostrarSesiones(){
         printf("[Sesion %d] %s\n", numSesion, nombreDeArchivo);
     };
 }
+
+void mostrarEcuacionesDelArchivo(FILE *archivo){
+    char ecuacion[LONG_DE_ECUACIONES];
+    int i = 1;
+    printf("=== Ecuaciones de la sesión actual ===\n");
+    __validarArchivoVacio(archivo);
+    while (fgets(ecuacion, sizeof(ecuacion), archivo)){
+        printf("[Ecuacion %d]. %s", i++, ecuacion);
+    };
+}
+
+void __validarArchivoVacio(FILE *archivo){
+    int primerCaracter = fgetc(archivo);
+    if (primerCaracter == EOF){
+        printf("== No hay información ==\n");
+    } else {
+        rewind(archivo);
+    };
+}
+
+void crearArchivosNecesarios(){
+    FILE *archivo;
+    archivo = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "w");
+    fclose(archivo);
+    archivo = fopen("ecuaciones/.mapa_sesiones.txt", "w");
+    fclose(archivo);
+}
+
 

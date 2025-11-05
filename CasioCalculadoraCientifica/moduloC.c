@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "comun.h"
 #include "constantes.h"
 #include "moduloE.h"
 #include "Utils.h"
@@ -10,14 +8,14 @@ typedef struct{
     char nombre[LONG_NOMBRE_DE_ARCHIVO];
 } sesionDisponible;
 
-int validarNombresPrevios(sesionDisponible *sesion){
+int __validarNombresPrevios(sesionDisponible *sesion){
     int proximaSesion = 1, errores = 0, numSesion;
-    char nombreSesionPrevia[LONG_DE_SESIONES];
+    char nombreSesionPrevia[LONG_NOMBRE_DE_ARCHIVO];
     FILE *archivoMapeos;
 
-    // Primera pasada: verificar nombre y calcular próxima sesión
     archivoMapeos = fopen("ecuaciones/.mapa_sesiones.txt", "r");
     if (archivoMapeos != NULL){
+        // Primera pasada: verificar nombre y calcular próxima sesión
         while(fscanf(archivoMapeos, "%d %s", &numSesion, nombreSesionPrevia) == 2) {
             if (strcmp(sesion -> nombre, nombreSesionPrevia) == 0) {
                 printf("Ya existe una sesión con el nombre '%s'. Elija otro.\n", sesion -> nombre);
@@ -35,11 +33,9 @@ int validarNombresPrevios(sesionDisponible *sesion){
             eliminarArchivoIndividual(numSesion);
             errores = 1;
         };
-
         if(!errores){
             sesion -> numSesion = proximaSesion;
         };
-
         fclose(archivoMapeos);
     } else{
         printf("No se pudo abrir el archivo de mapeos en modo lectura.");
@@ -48,9 +44,8 @@ int validarNombresPrevios(sesionDisponible *sesion){
     return errores;
 }
 
-void validarNombreDeSesion(sesionDisponible *sesion){
+void __validarNombreDeSesion(sesionDisponible *sesion){
     int esValido = 1;
-
     do {
         if(!esValido){
             printf("Caracteres que uso: %ld\n", strlen(sesion -> nombre));
@@ -60,7 +55,7 @@ void validarNombreDeSesion(sesionDisponible *sesion){
         fgets(sesion -> nombre, sizeof(sesion -> nombre), stdin);
         sesion -> nombre[strcspn(sesion -> nombre, "\n")] = '\0'; // eliminar salto de línea.
         esValido = 0;
-    } while(strlen(sesion -> nombre) > LONG_NOMBRE_DE_ARCHIVO || validarNombresPrevios(sesion));
+    } while(strlen(sesion -> nombre) > LONG_NOMBRE_DE_ARCHIVO || __validarNombresPrevios(sesion));
 }
 
 void guardarYReiniciar() {
@@ -70,7 +65,7 @@ void guardarYReiniciar() {
     sesionDisponible sesion;
 
     // -- Pedir nombre de sesión y verificar si ya existe en el mapa --
-    validarNombreDeSesion(&sesion);
+    __validarNombreDeSesion(&sesion);
 
     // -- Crear el nuevo archivo de ecuaciones --
     sprintf(rutaCompleta, "ecuaciones/%s.txt", sesion.nombre);
