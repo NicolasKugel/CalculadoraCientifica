@@ -34,7 +34,7 @@ int main(){
 
         switch (opcion) {
             case 'A':
-                printf("Llamada al modulo A");
+                //printf("Llamada al modulo A");
                 moduloA_ejecutar();
             break;
             case 'B':
