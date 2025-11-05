@@ -7,7 +7,7 @@
 void mostrarEcuacionesSesion() {
     FILE *temp = fopen("ecuaciones/ecuaciones-sesion-actual.tmp", "r");
     char ecuacion[LONG_DE_ECUACIONES];
-    int i = 0;
+    int i = 1;
 
     if (!temp) {
         printf("Error al leer archivo temporal\n");

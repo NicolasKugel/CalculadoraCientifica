@@ -18,7 +18,7 @@ int validarOpcion(int op, int *opciones){
 
 void mostrarYSeleccionar(){
     char nombreDeArchivos[CANTIDAD_DE_ARCHIVOS][LONG_NOMBRE_DE_ARCHIVO]; // matriz con los nombres de archivos
-    char nombreDeArchivo[RUTA_COMPLETA_ARCHIVO], ecuacion[LONG_DE_ECUACIONES];
+    char nombreDeArchivo[LONG_NOMBRE_DE_ARCHIVO], ecuacion[LONG_DE_ECUACIONES];
     char rutaCompleta[RUTA_COMPLETA_ARCHIVO]; // incluyendo el directorio ecuaciones
     int opcion = 0, opcionValida = 1, i = 0, numSesion, sesionesDisponibles[CANTIDAD_DE_ARCHIVOS];
     FILE *archivoMapeo, *archivoSeleccionado, *aTmp;

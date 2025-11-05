@@ -3,4 +3,6 @@
 
 void eliminarArchivosDeSesiones();
 
+void eliminarArchivoIndividual(int);
+
 #endif // MODULOE_INCLUDED

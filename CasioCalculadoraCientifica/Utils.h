@@ -9,4 +9,6 @@ void clearScreen();
 
 void waitEnter();
 
+void mostrarSesiones();
+
 #endif // UTILS_H_INCLUDED
