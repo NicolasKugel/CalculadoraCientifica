@@ -1,27 +1,5 @@
 #include "reemplazar_variables.h"
 
-// convierto valor de double a string
-char* doubleAString(double val)
-{
-    char* buffer = NULL;
-    char* buffer_aux = NULL;
-    int len = 0;
-    buffer_aux = (char*) malloc(TAM_NUM);
-    if(val == trunc(val))
-    {
-        sprintf(buffer_aux, "%.0lf", val);
-    }
-    else
-    {
-        sprintf(buffer_aux, "%lf", val);
-    }
-    len = strlen(buffer_aux);
-    buffer = (char*) malloc(len + 1);
-    memcpy(buffer, buffer_aux, len + 1);
-    free(buffer_aux);
-    return buffer;
-}
-
 // reemplazo las ocurrencias de x e y en la funcion con sus respectivos valores
 char* reemplazarVariables(char* func, double val_x, double val_y)
 {

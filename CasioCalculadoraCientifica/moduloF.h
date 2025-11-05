@@ -1,16 +1,12 @@
 #ifndef MODULOF_H_INCLUDED
 #define MODULOF_H_INCLUDED
 
+#include "constantes.h"
 #include "parser_funciones.h"
 #include "Utils.h"
 
-typedef struct {
-    double x;
-    double y;
-    char* result;
-} tbl_val;
 
-void mainModuloF(char*);
+void mainModuloF();
 
 
 #endif // MODULOF_H_INCLUDED

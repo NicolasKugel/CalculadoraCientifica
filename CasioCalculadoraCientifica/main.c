@@ -6,6 +6,7 @@
 #include "moduloC.h"
 #include "moduloD.h"
 #include "moduloE.h"
+#include "moduloF.h"
 #include "moduloH.h"
 #include "Utils.h"
 
@@ -45,6 +46,7 @@ int main(){
                 eliminarArchivosDeSesiones();
                 break;
             case 'F':
+                mainModuloF();
                 break;
             case 'H':
                 mostrarAyuda();
