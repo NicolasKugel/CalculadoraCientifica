@@ -56,7 +56,7 @@ void eliminarArchivoIndividual(int sesionAEliminar){
     };
     for(j = 0; j < i; j++){
         fprintf(archivoMapeo, "%d %s\n", j + 1, sesionesDisponibles[j].nombreSesion); // Reorganizo los archivos.
-        printf("Cargando ecuaciones en sesion %d %s\n", sesionesDisponibles[j].numSesion, sesionesDisponibles[j].nombreSesion);
+        //printf("Cargando ecuaciones en sesion %d %s\n", sesionesDisponibles[j].numSesion, sesionesDisponibles[j].nombreSesion); debug
     };
     fclose(archivoMapeo);
 }

@@ -42,6 +42,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Utils.h" />
+		<Unit filename="comun.h" />
 		<Unit filename="constantes.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
@@ -70,6 +71,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="moduloF.h" />
+		<Unit filename="moduloH.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="moduloH.h" />
 		<Unit filename="parser_funciones.c">
 			<Option compilerVar="CC" />
 		</Unit>
