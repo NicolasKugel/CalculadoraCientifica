@@ -1,14 +1,12 @@
-#include <stdio.h>
 #include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
+#include "comun.h"
+#include "constantes.h"
+#include "moduloA.h"
 #include "moduloB.h"
 #include "moduloC.h"
 #include "moduloD.h"
 #include "moduloE.h"
-#include "moduloA.h"
-#define VERSION 1.0
-#define LONG_OPCIONES 9
+#include "Utils.h"
 
 char validarIngresoDeOpcion(char, char*);
 int buscarOpcionEnOpciones(char, char*);
@@ -16,8 +14,8 @@ int buscarOpcionEnOpciones(char, char*);
 int main(){
     char opcion = 'X';
     char opciones_validas[LONG_OPCIONES] = {'A', 'B', 'C', 'D', 'E', 'F', 'H', 'X', '\0'};
+    crearArchivosNecesarios();
 
-    printf("Version de calculadora %0.1f\n", VERSION);
     do {
         printf("Ingresa una opcion del siguiente menu:\n\
         OPCION - DESCRIPCION \n\
@@ -47,11 +45,11 @@ int main(){
                 break;
             case 'D':
                 printf("Llamada al modulo D\n");
-                //mostrarYSeleccionar();
+                mostrarYSeleccionar();
                 break;
             case 'E':
                 printf("Llamada al modulo E\n");
-                //eliminarArchivosDeSesiones();
+                eliminarArchivosDeSesiones();
                 break;
             case 'F':
                 printf("Llamada al modulo F\n");
@@ -75,7 +73,7 @@ char validarIngresoDeOpcion(char op, char *ops){
 
         printf("Opcion: ");
         op = getchar();
-        while (getchar() != '\n'); //Eliminamos el caracter de corte /n
+        while (getchar() != '\n'); // Limpiar buffer
         op = toupper(op);
         band = 0;
     } while (!buscarOpcionEnOpciones(op, posicion_inicial));

@@ -9,4 +9,10 @@ void clearScreen();
 
 void waitEnter();
 
+void mostrarSesiones();
+
+void mostrarEcuacionesDelArchivo(FILE *archivo);
+
+void crearArchivosNecesarios();
+
 #endif // UTILS_H_INCLUDED

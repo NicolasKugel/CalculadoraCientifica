@@ -1,8 +1,6 @@
+#include "comun.h"
 #include "moduloA.h"
 #include "constantes.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
 #include <conio.h>
 
@@ -44,7 +42,7 @@ int leer_ecuacion_en_buffer(char *destino, int tamanio) {
 
 /* ============================================================
    Permite editar una linea con "prefill" y borrar todo, incluso lo precargado.
-   - En Windows usa _getch() (conio.h) para leer tecla por tecla sin edición de consola.
+   - En Windows usa _getch() (conio.h) para leer tecla por tecla sin ediciÃ³n de consola.
    - En otros SO cae a un fallback con getchar() (no podras borrar el prefill).
    Parametros:
      destino        -> buffer de salida (terminado en '\0')
