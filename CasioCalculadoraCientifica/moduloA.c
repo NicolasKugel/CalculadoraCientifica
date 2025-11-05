@@ -522,7 +522,7 @@ int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final) {
               - La primera vez, ecuacion="" (cadena vacia).
               - Las siguientes, queda el ultimo texto escrito para seguir editando. */
         if(ya_ingrese_ecu==0){
-            puts("Ingrese la ecuacion (maximo %d caracteres) y presione Enter:", MAXIMO_LARGO_ECUACION);
+            puts("Ingrese la ecuacion (maximo 256 caracteres) y presione Enter:");
         }else{
             puts("Edite la ecuacion y presione Enter:");
         }
