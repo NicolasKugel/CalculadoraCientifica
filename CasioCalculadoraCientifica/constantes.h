@@ -7,6 +7,13 @@
 #define LONG_DE_SESIONES 51
 #define LONG_NOMBRE_DE_ARCHIVO 51
 #define RUTA_COMPLETA_ARCHIVO 66
-
+/* =====================================================================
+   CONFIGURACION / CONSTANTES
+   ---------------------------------------------------------------------
+   - MAXIMO_LARGO_ECUACION: tope logico para leer una ecuacion desde stdin
+   - RUTA_ARCHIVO_TEMPORAL: ruta por defecto para guardar las ecuaciones
+   ===================================================================== */
+#define MAXIMO_LARGO_ECUACION 256
+#define RUTA_ARCHIVO_TEMPORAL "ecuaciones/ecuaciones-sesion-actual.tmp"
 
 #endif // CONSTANTES_INCLUDED
