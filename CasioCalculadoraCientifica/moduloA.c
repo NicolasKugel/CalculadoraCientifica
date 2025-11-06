@@ -1,6 +1,7 @@
 #include "comun.h"
 #include "moduloA.h"
 #include "constantes.h"
+#include "Utils.h"
 #include <ctype.h>
 
 /* =========================================================================
@@ -423,13 +424,52 @@ int ecuacion_guardar_en_archivo(char *ruta_archivo, char *cadena_ecuacion, int a
     return 0;
 }
 
+void reemplazarEcuacion(int numeroLinea, char* nuevaEcuacion) {
+    FILE* archivo = fopen(RUTA_ARCHIVO_TEMPORAL, "r");
+    if (archivo == NULL) {
+        printf("No se pudo abrir el archivo para lectura\n");
+    }
+
+    // Crear archivo temporal
+    FILE* temp = fopen("ecuaciones/temp_ecuaciones.txt", "w");
+    if (temp == NULL) {
+        printf("No se pudo crear archivo temporal\n");
+        fclose(archivo);
+    }
+
+    if (archivo && temp) {
+        char linea[256];
+        int contador = 1;
+
+        // Copiar todas las líneas, reemplazando la deseada
+        while (fgets(linea, sizeof(linea), archivo) != NULL) {
+            if (contador == numeroLinea) {
+                fprintf(temp, "%s\n", nuevaEcuacion);  // Nueva ecuación
+            } else {
+                fputs(linea, temp);  // Línea original
+            }
+            contador++;
+        }
+
+        fclose(archivo);
+        fclose(temp);
+
+        // Reemplazar archivo original
+        remove(RUTA_ARCHIVO_TEMPORAL);
+        rename("ecuaciones/temp_ecuaciones.txt", RUTA_ARCHIVO_TEMPORAL);
+
+        printf("Ecuacion %d actualizada correctamente.\n", numeroLinea);
+    };
+}
+
+
 /* =========================================================================
    EJECUTORES DEL MODULO A
    -------------------------------------------------------------------------
    - moduloA_ejecutar(): usa RUTA_ARCHIVO_TEMPORAL y modo "append"
    - moduloA_ejecutar_con_ruta(): permite ruta y modo
    ========================================================================= */
-int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final) {
+int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final, int *ecuaciones_guardadas) {
     char ecuacion[MAXIMO_LARGO_ECUACION] = ""; /* buffer principal de trabajo */
     int resultado_operacion;
     int posicion_error_detectada = -1;
@@ -479,7 +519,7 @@ int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final) {
         /* Pregunta con validacion */
         do {
             printf("Desea (E)ditar, (C)ancelar (G)uardar? (ingrese E, C o G unicamente)\n");
-            printf("Si presiona editar tenga en cuenta que solo se pueden agregar caracteres a la ecuacion pero sin borrar los que ya cargaste.");
+            printf("Si presiona editar tenga en cuenta que solo se pueden agregar caracteres a la ecuacion pero sin borrar los que ya cargaste.\n");
             if (leer_opcion_yg(&opcion) != 0) {
                 puts("Error de lectura de opcion.");
                 return -1;
@@ -495,25 +535,41 @@ int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final) {
             ya_ingrese_ecu = 1;
             seguir_editando = 1;
         } else if (opcion == 'c' || opcion == 'C'){
-            moduloA_ejecutar_con_ruta(RUTA_ARCHIVO_TEMPORAL, 1);
-        }else{
+            moduloA_ejecutar_con_ruta(RUTA_ARCHIVO_TEMPORAL, 1,ecuaciones_guardadas);
+        } else{
             seguir_editando = 0;
         }
     }
 
-    /* 6) Guardar en archivo temporal con fprintf("<ecuacion>\n") */
-    resultado_operacion = ecuacion_guardar_en_archivo(ruta_archivo, ecuacion, agregar_al_final);
-    if (resultado_operacion != 0) {
-        puts("No se pudo escribir la ecuacion en el archivo temporal.");
-        return -4;
-    }
+    /* 6) Guardar en archivo temporal con fprintf("<ecuacion>\n") validando cantidad de ecuaciones en archivo temporal */
+    if(*ecuaciones_guardadas < CANTIDAD_DE_ECUACIONES){
+        resultado_operacion = ecuacion_guardar_en_archivo(ruta_archivo, ecuacion, agregar_al_final);
+        if (resultado_operacion != 0) {
+            puts("No se pudo escribir la ecuacion en el archivo temporal.");
+            return -4;
+        }
+        *ecuaciones_guardadas+=1;
+        /* 7) Anunciar exito */
+        puts("Ecuacion guardada correctamente.");
+    }else{
+        printf("Es necesario pisar una ecuacion ya que se pueden cargar un maximo de %d en la misma sesion.\n",CANTIDAD_DE_ECUACIONES);
+        FILE* archTemp;
+        archTemp = fopen(RUTA_ARCHIVO_TEMPORAL,"r");
+        mostrarEcuacionesDelArchivo(archTemp);
+        fclose(archTemp);
+        int ecua_a_borrar;
+        printf("Ingrese la ecuacion a pisar:");
+        scanf("%d", &ecua_a_borrar);
+        while(getchar() != '\n');
+        reemplazarEcuacion(ecua_a_borrar, ecuacion);
+    };
+    printf("%d ecuacion guardada\n",*ecuaciones_guardadas);
 
-    /* 7) Anunciar exito */
-    puts("Ecuacion guardada correctamente.");
     return 0;
 }
 
-int moduloA_ejecutar(void) {
+
+int moduloA_ejecutar(int *ecuaciones_guardadas) {
     /* Usamos la ruta por defecto y agregamos al final del archivo */
-    return moduloA_ejecutar_con_ruta(RUTA_ARCHIVO_TEMPORAL, 1);
+    return moduloA_ejecutar_con_ruta(RUTA_ARCHIVO_TEMPORAL, 1 ,ecuaciones_guardadas);
 }

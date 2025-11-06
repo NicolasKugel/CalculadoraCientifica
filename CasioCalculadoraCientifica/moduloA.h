@@ -1,6 +1,5 @@
 #ifndef MODULOA_H
 #define MODULOA_H
-
 /* =====================================================================
    moduloA_ejecutar():
      1) Solicita la ecuacion al usuario (stdin) con tope MAXIMO_LARGO_ECUACION
@@ -18,13 +17,13 @@
     -4  -> error de archivo al guardar
     >0  -> codigo de error de validacion (ver ecuacion_validar)
    ===================================================================== */
-int moduloA_ejecutar(void);
+int moduloA_ejecutar(int *ecuaciones_guardadas);
 
 /* Variante para indicar otra ruta y modo de escritura:
    - ruta_archivo: archivo destino
    - agregar_al_final: 1 para append, 0 para reescribir
 */
-int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final);
+int moduloA_ejecutar_con_ruta(char *ruta_archivo, int agregar_al_final,int *ecuaciones_guardadas);
 
 /* =====================================================================
    UTILIDADES DE I/O
@@ -72,4 +71,5 @@ int ecuacion_validar(char *cadena_ecuacion, int *posicion_error);
    ===================================================================== */
 int ecuacion_guardar_en_archivo(char *ruta_archivo, char *cadena_ecuacion, int agregar_al_final);
 
+void reemplazarEcuacion(int, char*);
 #endif

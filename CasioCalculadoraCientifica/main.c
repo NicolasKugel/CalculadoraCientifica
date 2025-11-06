@@ -14,6 +14,7 @@
 int main(){
     char opcion = 'X';
     crearArchivosNecesarios();
+    int ecuaciones_guardadas = 0;
 
     do {
         printf("Ingresa una opcion del siguiente menu:\n\
@@ -31,7 +32,8 @@ int main(){
 
         switch (opcion) {
             case 'A':
-                moduloA_ejecutar();
+                printf("Llamada al modulo A\n");
+                moduloA_ejecutar(&ecuaciones_guardadas);
             break;
             case 'B':
                 mostrarEcuacionesSesion();
