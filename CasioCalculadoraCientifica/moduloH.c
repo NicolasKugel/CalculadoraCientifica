@@ -6,7 +6,6 @@ int mostrarAyuda(){
 
     printf("== Ingresando al menú de ayuda ==\n");
     do {
-        clearScreen();
         printf("Escriba letra del modulo para ver su ayuda:\n\
         OPCION - DESCRIPCION \n\
         A - Cómo escribir una ecuacion \n\
@@ -27,7 +26,8 @@ int mostrarAyuda(){
                 "\n=== MODULO A - ESCRIBIR UNA ECUACION ===\n"
                 "FORMATO GENERAL:\n"
                 "  - La ecuacion no debe tener signo igual '='\n"
-                "  - Se permiten espacios, el programa los elimina al procesar\n\n"
+                "  - Se permiten espacios, el programa los elimina al procesar\n"
+                "  - Los numeros negativos deben ser escritros entre paréntesis"
                 "VARIABLES PERMITIDAS: x, y\n\n"
                 "OPERADORES PERMITIDOS: +  -  *  /  ^  v\n"
                 "  - 'v' para raices: '2v49' = raiz cuadrada de 49\n"
@@ -132,6 +132,7 @@ int mostrarAyuda(){
                 waitEnter();
                 break;
         }
+        clearScreen();
     } while(opcion != 'X');
     printf("== Saliendo del menú de ayuda ==\n");
     return 0;
