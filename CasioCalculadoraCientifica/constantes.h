@@ -5,7 +5,7 @@
 #define LONG_OPCIONES 9
 
 // Variables para expresar cantidad de elementos.
-#define CANTIDAD_DE_ECUACIONES 3
+#define CANTIDAD_DE_ECUACIONES 10
 #define CANTIDAD_DE_ARCHIVOS 10
 
 // Variables para expresar cantidad de caracteres permitidos.

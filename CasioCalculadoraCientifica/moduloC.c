@@ -48,7 +48,7 @@ void __validarNombreDeSesion(sesionDisponible *sesion){
     int esValido = 1;
     do {
         if(!esValido){
-            printf("Caracteres que uso: %lld\n", strlen(sesion -> nombre));
+            printf("Caracteres que uso: %ld\n", strlen(sesion -> nombre));
         };
         printf("== El nombre del archivo no debe superar los 50 caracteres ==\n");
         printf("Ingrese el nombre de la sesión: ");

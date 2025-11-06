@@ -1,6 +1,5 @@
 #ifndef MODULOA_H
 #define MODULOA_H
-
 /* =====================================================================
    moduloA_ejecutar():
      1) Solicita la ecuacion al usuario (stdin) con tope MAXIMO_LARGO_ECUACION
@@ -72,4 +71,5 @@ int ecuacion_validar(char *cadena_ecuacion, int *posicion_error);
    ===================================================================== */
 int ecuacion_guardar_en_archivo(char *ruta_archivo, char *cadena_ecuacion, int agregar_al_final);
 
+void reemplazarEcuacion(int, char*);
 #endif
